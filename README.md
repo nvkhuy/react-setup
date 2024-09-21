@@ -21,55 +21,57 @@
 - React
 - Tailwind
 - React Query
-### 1. Create React Project
+### Create React Project
 First, create your React project using `Vite`:
 ```bash
 npm create vite@latest
 ```
-### 2. Install Tailwind
+### Install Tailwind
 ```bash
 npm install -D tailwindcss
+```
+```bash
 npx tailwindcss init
 ```
-### 3. Configure `tailwind.config.js`
+### Configure `tailwind.config.js`
 ```css
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+/** @type {import("tailwindcss").Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"], theme: {
+    extend: {}
+  }, plugins: []
+};
 ```
-### 3. Configure `postcss.config.js`
+### Install `autoprefixer`
+```bash
+npm install autoprefixer --save-dev
+```
+### Configure `postcss.config.js`
 ```css
 export default {
   plugins: {
     tailwindcss: {},
-    autoprefixer: {},
-  },
+    autoprefixer: {}
+  }
 };
 ```
-### 4. Add tailwind directives to CSS
+### Add tailwind directives to CSS in `src/index.css`
 ```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
-### 5. Install prettier-plugin-tailwindcss
+### Install prettier-plugin-tailwindcss
 ```bash
 npm install -D prettier prettier-plugin-tailwindcss
 ```
-### 6. Configure `.prettierrc`
+### Configure `.prettierrc`
 ```css
 {
   "plugins": ["prettier-plugin-tailwindcss"]
 }
 ```
-### 7. Install React Query 
+### Install React Query 
 ```bash
 npm i @tanstack/react-query
 ```
