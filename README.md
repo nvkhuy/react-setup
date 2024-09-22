@@ -6,7 +6,6 @@
 
 <div align="center">
   <h1>React Cheat Sheet</h1>
-  <a href="https://www.npmjs.com/package/prisma"><img src="https://img.shields.io/npm/v/prisma.svg?style=flat" /></a>
   <a href="https://github.com/nvkhuy/react-cheat-sheet/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" /></a>
   <br />
   <br />
