@@ -1,5 +1,5 @@
 <div align="center">
-    <img  src="https://i.imgur.com/75yNf1K.png" alt="react-cheat-sheet" width="200" height="200">
+    <img  src="https://i.imgur.com/75yNf1K.png" alt="react-cheat-sheet" width="400" height="400">
 </div>
 
 
