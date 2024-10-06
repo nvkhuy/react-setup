@@ -1,52 +1,130 @@
-<div align="center">
-    <img  src="https://i.imgur.com/75yNf1K.png" alt="react-cheat-sheet" width="400" height="400">
-</div>
+# Vite + React TS Setup
 
+This guide outlines the steps to set up a Vite + React project with Tailwind CSS, ESLint, Prettier, and TypeScript. All configurations are provided to ensure a consistent and maintainable codebase.
 
+## 🛠️ Installation
 
-<div align="center">
-  <h1>React Cheat Sheet</h1>
-  <a href="https://github.com/nvkhuy/react-cheat-sheet/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" /></a>
-  <br />
-  <br />
-  <a href="https://nvkhuy.com/">Website</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://x.com/nvkhuy">X</a>
-  <br />
-  <hr />
-</div>
+Run the following commands in your terminal:
 
-## Setup
-- React
-- Tailwind
-- React Query
-### Create React Project
-First, create your React project using `Vite`:
 ```bash
+# Create a new Vite project
 npm create vite@latest
-```
-### Install Tailwind
-```bash
-npm install -D tailwindcss
-```
-```bash
+
+# Install Tailwind CSS
+npm i -D tailwindcss
+
+# Initialize Tailwind CSS configuration
 npx tailwindcss init
+
+# Install Autoprefixer
+npm i autoprefixer --save-dev
+
+# Install Prettier and Tailwind CSS Prettier Plugin
+npm i -D prettier prettier-plugin-tailwindcss
+
+# Install ESLint and Prettier ESLint Plugins
+npm i prettier eslint-config-prettier eslint-plugin-prettier -D
+
+# Install TypeScript Node Types
+npm i @types/node -D
 ```
-### Configure `tailwind.config.js`
-```css
-/** @type {import("tailwindcss").Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"], theme: {
-    extend: {}
-  }, plugins: []
-};
-```
-### Install `autoprefixer`
+
+## 📂 Configuration Files
+
+### `.prettierignore`
+
 ```bash
-npm install autoprefixer --save-dev
+node_modules/
+dist/
 ```
-### Configure `postcss.config.js`
-```css
+
+### `.prettierrc`
+
+```json
+{
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "arrowParens": "always",
+  "semi": false,
+  "trailingComma": "none",
+  "tabWidth": 4,
+  "endOfLine": "auto",
+  "useTabs": false,
+  "singleQuote": true,
+  "printWidth": 120,
+  "jsxSingleQuote": true
+}
+```
+
+### `eslint.config.js`
+
+```js
+import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import tseslint from "typescript-eslint";
+import eslintPluginPrettier from "eslint-plugin-prettier";
+
+export default tseslint.config(
+  { ignores: ["dist", "vite.config.ts"] },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser
+    },
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+      prettier: eslintPluginPrettier
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true }
+      ],
+      "prettier/prettier": [
+        "warn",
+        {
+          arrowParens: "always",
+          semi: false,
+          trailingComma: "none",
+          tabWidth: 4,
+          endOfLine: "auto",
+          useTabs: false,
+          singleQuote: true,
+          printWidth: 120,
+          jsxSingleQuote: true
+        }
+      ]
+    }
+  }
+);
+```
+
+### `package.json` Script Section
+
+Add the following scripts to your `package.json` file:
+
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
+    "prettier:fix": "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\""
+  }
+}
+```
+
+### `postcss.config.js`
+
+```js
 export default {
   plugins: {
     tailwindcss: {},
@@ -54,27 +132,84 @@ export default {
   }
 };
 ```
-### Add tailwind directives to CSS in `src/index.css`
+
+### `src/index.css`
+
 ```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
-### Install prettier-plugin-tailwindcss
-```bash
-npm install -D prettier prettier-plugin-tailwindcss
-```
-### Configure `.prettierrc`
-```css
+
+### `tsconfig.json`
+
+```json
 {
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    }
+  }
 }
 ```
-### Install React Query 
-```bash
-npm i @tanstack/react-query
+
+### `vite.config.ts`
+
+```js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
+import path from 'path'
+
+// Vite Configuration
+export default defineConfig({
+    plugins: [react()],
+    server: {
+        port: 3000
+    },
+    css: {
+        devSourcemap: true
+    },
+    resolve: {
+        alias: {
+            '~': path.resolve(__dirname, './src')
+        }
+    }
+})
 ```
-### Project Tree
-```bash
-tree -I 'node_modules'
+
+### `.editorconfig`
+
 ```
+[*]
+indent_size = 4
+indent_style = space
+```
+
+## 🚀 Getting Started
+
+1. Clone the repository and navigate into the project directory.
+2. Install dependencies using `npm install`.
+3. Start the development server with `npm run dev`.
+
+## 🧹 Linting & Formatting
+
+- Run `npm run lint` to check for linting errors.
+- Run `npm run lint:fix` to automatically fix linting issues.
+- Run `npm run prettier` to check code formatting.
+- Run `npm run prettier:fix` to apply Prettier formatting.
+
+## 📦 Build & Preview
+
+- Use `npm run build` to create a production build.
+- Use `npm run preview` to preview the build locally.
+
+## 🔧 Additional Configurations
+
+- Modify `.prettierrc`, `.eslintignore`, or `.eslintrc` as needed for personalized styling and rules.
+- Tailwind and PostCSS configurations can be further customized in their respective config files.
