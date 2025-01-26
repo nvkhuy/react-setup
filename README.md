@@ -211,6 +211,5 @@ indent_style = space
 
 ## 🔧 Additional Configurations
 
-
 - Modify `.prettierrc`, `.eslintignore`, or `.eslintrc` as needed for personalized styling and rules.
 - Tailwind and PostCSS configurations can be further customized in their respective config files.
